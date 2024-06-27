@@ -1,0 +1,3 @@
+[workspace]
+resolver = "2"
+members = ["xtask", "tiiuae-fw", "tiiuae-fw-common"]
