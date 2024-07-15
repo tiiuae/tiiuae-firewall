@@ -2,21 +2,24 @@ use aya::programs::{tc, SchedClassifier, TcAttachType};
 use aya::{include_bytes_aligned, Bpf};
 use aya_log::BpfLogger;
 use clap::Parser;
-use log::{info, warn, debug};
+use log::{debug, info, warn};
 use tokio::signal;
 
 #[derive(Debug, Parser)]
 struct Opt {
-    #[clap(short, long, default_value = "eth0")]
+    #[clap(short, long, default_value = "vboxnet0")]
     iface: String,
+    #[clap(long)]
+    log: String,
 }
 
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
     let opt = Opt::parse();
-
-    env_logger::init();
-
+    if opt.log == "true" {
+        std::env::set_var("RUST_LOG", "info");
+        env_logger::init();
+    }
     // Bump the memlock rlimit. This is needed for older kernels that don't use the
     // new memcg based accounting, see https://lwn.net/Articles/837122/
     let rlim = libc::rlimit {

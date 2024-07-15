@@ -12,6 +12,7 @@ tiiuae-fw-common = { path = "../tiiuae-fw-common" }
 name = "tiiuae-fw"
 path = "src/main.rs"
 
+
 [profile.dev]
 opt-level = 3
 debug = false

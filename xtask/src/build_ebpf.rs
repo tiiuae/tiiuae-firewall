@@ -42,14 +42,10 @@ pub struct Options {
 pub fn build_ebpf(opts: Options) -> Result<(), anyhow::Error> {
     let dir = PathBuf::from("tiiuae-fw-ebpf");
     let target = format!("--target={}", opts.target);
-    let mut args = vec![
-        "build",
-        target.as_str(),
-        "-Z",
-        "build-std=core",
-    ];
+    let mut args = vec!["build", target.as_str(), "-Z", "build-std=core"];
     if opts.release {
-        args.push("--release")
+        args.push("--release");
+        std::env::set_var("RUSTFLAGS", "-D warnings");
     }
 
     // Command::new creates a child process which inherits all env variables. This means env

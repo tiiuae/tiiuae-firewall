@@ -1,0 +1,25 @@
+{
+    "editor.formatOnSave": true,
+    "rust-analyzer.files.excludeDirs": [
+        ".direnv"
+    ],
+    // https://twitter.com/sridca/status/1674947342607216641
+    // "editor.inlayHints.enabled": "offUnlessPressed",
+    "terminal.integrated.profiles.linux": {
+        "Nix Develop": {
+            "path": "nix",
+            "args": [
+                "develop",
+                "--extra-experimental-features",
+                "nix-command flakes"
+            ],
+            "icon": "terminal"
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "Nix Develop",
+    "terminal.integrated.cwd": "${workspaceFolder}",
+    "[rust]": {
+        "editor.defaultFormatter": "rust-lang.rust-analyzer"
+    },
+    "rust-analyzer.check.command": "clippy"
+}

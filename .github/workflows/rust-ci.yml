@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v3
+
+    - uses: cachix/install-nix-action@v22
+      with:
+        nix_path: nixpkgs=channel:nixos-unstable
+
+    - name: Build and Test
+      run: |
+        nix develop --extra-experimental-features "nix-command flakes" -c bash -c '
+          rustup default nightly
+          ./build.sh -b debug
+        '
+    
+    - name: Run Rustfmt
+      run: |
+        nix develop --extra-experimental-features "nix-command flakes" -c bash -c '
+          cargo fmt -- --check
+        '
+    - name: Run Clippy
+      run: |
+        nix develop --extra-experimental-features "nix-command flakes" -c bash -c '
+          cargo clippy -- -D warnings
+        '
+    - name: Run Tests
+      run: |
+        nix develop --extra-experimental-features "nix-command flakes" -c bash -c '
+          cargo test
+        '
+
+    - name: Run Cargo Audit
+      run: |
+        nix develop --extra-experimental-features "nix-command flakes" -c bash -c '
+          cargo audit
+        '
+
+    - name: Run Cargo Miri
+      run: |
+        nix develop --extra-experimental-features "nix-command flakes" -c bash -c '
+          rustup component add miri
+          cargo miri test
+        '

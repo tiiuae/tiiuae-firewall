@@ -1,32 +1,41 @@
 # tiiuae-fw
 
-## Prerequisites
+tiiuae-fw is a robust and efficient eBPF based firewall solution designed to provide enhanced security for your network infrastructure.
 
-1. Install bpf-linker: `cargo install bpf-linker`
+## Building from Source with Nix
 
-## Build eBPF
+* Clone the repository:
 
+```bash 
+git clone https://github.com/tiiuae/tiiuae-firewall.git
+cd tiiuae-firewall
+```
+* Start nix devshell
 ```bash
-cargo xtask build-ebpf
+./run_dev.sh
 ```
 
-To perform a release build you can use the `--release` flag.
-You may also change the target architecture with the `--target` flag.
-
-## Build Userspace
-
+* Build and run the project 
 ```bash
-cargo build
+./run_app.sh -b <debug/release>
 ```
 
-## Build eBPF and Userspace
+## Working with VSCode
 
-```bash
-cargo xtask build
+* Clone the repository:
+
+```bash 
+git clone https://github.com/tiiuae/tiiuae-firewall.git
+cd tiiuae-firewall
 ```
 
-## Run
-
+* navigate to project root directory and start Vscode with nix devshell
 ```bash
-RUST_LOG=info cargo xtask run
+./run_vscode.sh
 ```
+
+* Build and run the project 
+```bash
+./run_app.sh -b <debug/release>
+```
+
