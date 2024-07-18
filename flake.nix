@@ -23,6 +23,7 @@
             pkg-config
             eza
             fd
+            lldb
            # rustup
             clang
             cmake   # Example: build system

@@ -4,7 +4,7 @@ rm -rf target/
 
 # Default build type
 build_type="debug"
-extra_args=""
+
 # Function to display usage information
 usage() {
     echo "Usage: $0 [-h] [-b build_type]"
@@ -33,11 +33,16 @@ if [[ "$build_type" != "debug" && "$build_type" != "release" ]]; then
     usage
 fi
 
-if [[ "$build_type" == "debug" ]]; then
-   extra_args=" --log "true""
+
+# Run Cargo commands based on the build type
+if [ "$build_type" == "release" ]; then
+    cargo xtask build-ebpf --release || exit 1
+    cargo build --release || exit 1
+else
+    cargo xtask build-ebpf || exit 1
+    export RUSTFLAGS="-C link-arg=-lasan"
+    cargo build  -v || exit 1
 fi
 
-
-
-./build.sh -b "$build_type" || exit 1
-sudo ./target/$build_type/tiiuae-fw $extra_args || exit 1
+# Output build type
+echo "Build type: $build_type"

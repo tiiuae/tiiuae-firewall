@@ -1,14 +1,14 @@
 {
-    "recommendations": [
-        "rust-lang.rust-analyzer",
-        "yzhang.markdown-all-in-one",
-        "ms-vscode.cpptools",
-        "vadimcn.vscode-lldb",
-        "taiyuuki.vscode-cargo-scripts",
-        "serayuzgur.crates",
-        "tamasfe.even-better-toml",
-        "dustypomerleau.rust-syntax",
-        "ms-vscode.cpptools-themes",
-        "Swellaby.vscode-rust-test-adapter"
-    ]
+        "recommendations": [
+                "rust-lang.rust-analyzer",
+                "yzhang.markdown-all-in-one",
+                "ms-vscode.cpptools",
+                "vadimcn.vscode-lldb",
+                "taiyuuki.vscode-cargo-scripts",
+                "fill-labs.dependi",
+                "tamasfe.even-better-toml",
+                "dustypomerleau.rust-syntax",
+                "ms-vscode.cpptools-themes",
+                "Swellaby.vscode-rust-test-adapter"
+        ]
 }

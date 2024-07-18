@@ -1,0 +1,121 @@
+#    Copyright 2022-2024 TII (SSRC) and the contributors
+#    SPDX-License-Identifier: Apache-2.0
+
+# Enable/Disable IPv4 and IPv6 support
+[ip_options]
+ipv4_enabled = true
+ipv6_enabled = true
+
+[default_policy]
+input = "whitelist"
+output = "blacklist"
+
+
+[[interface_groups]]
+interface_group_1 = ["eth0", "eth1"]
+interface_group_2 = ["lo", "wlp0s3"]
+
+
+#Rule to allow SSH traffic from any source to a specific destination
+[[rules]]
+if_input = ["&interface_group_1"]
+action = "allow-input"
+protocol = "tcp"
+source_ip = "any"
+source_port = "any"
+destination_port = "30"
+description = "interface group example"
+
+
+#Rule to allow SSH traffic from any source to a specific destination
+[[rules]]
+#system network interfaces that are not grouped under [[interface_groups]] section
+if_output = ["&NOT_GROUPED_IFACES"]
+action = "drop-output"
+protocol = "icmp"
+source_ip = "any"
+source_port = "any"
+destination_port = "50"
+description = "interface group example"
+
+
+# Rule to allow SSH traffic from any source to a specific destination
+[[rules]]
+action = "allow-input"
+if_input = ["lo"]
+protocol = "tcp"
+source_ip = "any"
+destination_ip = "192.168.1.10"
+source_port = "any"
+destination_port = "[22, 1024]"
+description = "Allow SSH traffic from any source to 192.168.1.10"
+
+
+[[rules]]
+action = "allow-input"
+protocol = "icmp"
+if_input = ["lo"]
+source_ip = "any"
+destination_ip = "any"
+source_port = "any"
+destination_port = "any"
+description = "Allow all icmp packets"
+
+
+# Rule to allow HTTP traffic from any source to a specific destination
+[[rules]]
+action = "allow-input"
+protocol = "tcp"
+if_input = ["lo"]
+source_ip = "any"
+destination_ip = "192.168.1.20"
+source_port = "any"
+destination_port = "80"
+description = "Allow HTTP traffic from any source to 192.168.1.20"
+
+# Rule to allow HTTPS traffic from a specific source to any destination
+# [[rules]]
+# action = "allow-input"
+# protocol = "tcp"
+# ifinput = "eth0"
+# source_ip = "192.168.1.0/24"
+# destination_ip = "any"
+# source_port = "any"
+# destination_port = "443"
+# description = "Allow HTTPS traffic from 192.168.1.0/24 to any destination"
+
+# Rule to allow DNS queries from any source to a specific DNS server
+[[rules]]
+action = "allow-input"
+protocol = "udp"
+source_ip = "any"
+if_input = ["lo"]
+destination_ip = "8.8.8.8"
+source_port = "any"
+destination_port = "53"
+description = "Allow DNS queries to 8.8.8.8"
+
+# Rule to reject Telnet traffic from any source to any destination with ICMP unreachable
+[[rules]]
+action = "reject-input"
+reject-type = "icmp-unreachable"
+protocol = "tcp"
+source_ip = "any"
+if_input = ["lo"]
+destination_ip = "any"
+source_port = "any"
+destination_port = "23"
+description = "Reject Telnet traffic from any source to any destination with ICMP unreachable"
+
+
+# Rule to forward traffic from port 8080 on one IP to port 80 on another IP
+[[rules]]
+action = "forward"
+protocol = "tcp"
+if_input = ["lo"]
+if_output = ["lo"]
+source_ip = "192.168.1.30"
+new_dest_ip = "192.168.100.5"
+source_port = "80"
+new_source_port = "8080"
+description = "Forward traffic from port 80 on 192.168.1.30 to port 8080 on 192.168.100.5"

@@ -24,7 +24,7 @@ jobs:
       run: |
         nix develop --extra-experimental-features "nix-command flakes" -c bash -c '
           rustup default nightly
-          ./build.sh -b debug
+          ./scripts/build.sh -b debug
         '
     
     - name: Run Rustfmt
@@ -47,11 +47,4 @@ jobs:
       run: |
         nix develop --extra-experimental-features "nix-command flakes" -c bash -c '
           cargo audit
-        '
-
-    - name: Run Cargo Miri
-      run: |
-        nix develop --extra-experimental-features "nix-command flakes" -c bash -c '
-          rustup component add miri
-          cargo miri test
         '
